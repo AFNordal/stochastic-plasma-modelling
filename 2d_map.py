@@ -1,10 +1,7 @@
 import double_exp_ca_analysis as analysis
-import generate_series as datagen
 import storage
 import numpy as np
 from matplotlib import pyplot as plt
-from os import mkdir
-from tqdm import tqdm
 
 
 gamma = 1

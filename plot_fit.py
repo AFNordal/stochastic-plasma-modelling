@@ -1,6 +1,8 @@
 import double_exp_ca_analysis as analysis
+from double_exponential_fit import double_exponential
 import storage
 import numpy as np
+import matplotlib
 from matplotlib import pyplot as plt
 
 
@@ -28,15 +30,23 @@ dir = f"/hdd1/rno040/experiments/n100_gamma{gamma}_lambda0.1-0.5/50/"
 
 ca_data = storage.load_ca_data(dir, parameters)
 svals, s_av, s_var, t_av, peaks, wait = ca_data
-fit_data = analysis.iterate_least_sq(t_av, s_av, parameters)
-fit_time, fit, lmbda_guess, tau_d_guess, err = fit_data
+fit_data = analysis.iterate_least_sq(
+    t_av, s_av, parameters, return_raw=True)
+fit_time, fit, lmbda_guess, tau_d_guess, err, fit_params = fit_data
 
 true_time = np.arange(-delta/2, delta/2, dt)
-rising = np.exp(true_time[true_time < 0]/lmbda)
-falling = np.exp(-true_time[true_time >= 0]/(1-lmbda))
-true_curve = np.concatenate((rising, falling))
+true_curve = double_exponential(
+    len(true_time)//2, true_time, lmbda, lmbda-1, 1, 0)
+fit_lead_time = np.arange(-delta/2, fit_time[0]+dt, dt)
+fit_tail_time = np.arange(fit_time[-1], delta/2, dt)
+fit_lead = double_exponential(
+    len(fit_lead_time), fit_lead_time, *fit_params[:4])
+fit_tail = double_exponential(
+    0, fit_tail_time, *fit_params[:4])
 
 plt.plot(true_time, true_curve, color="g", linestyle="--", lw=1)
 plt.plot(t_av, s_av, color="b", lw=1)
+plt.plot(fit_lead_time, fit_lead, color="r", linestyle="--", lw=1)
+plt.plot(fit_tail_time, fit_tail, color="r", linestyle="--", lw=1)
 plt.plot(fit_time, fit, color="r", lw=1)
 plt.show()

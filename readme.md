@@ -74,10 +74,10 @@ A tuple of analysis data, `(svals, s_av, s_var, t_av, peaks, wait)`.
 Fits a double exponential function numerical data. Begins by doing the fit over all of the data. A new analysis domain is then calculated as `[peak_time-rise_time, peak_time+fall_time]` where rise and fall time are estimated from the previous fit. This is iterated until it converges on values for rise and fall time.
 
 Inputs:  
-Time and data arrays from series, dictionary of parameters and optionally a verbosity level. The dictionary must contain dt
+Time and data arrays from series, dictionary of parameters and optionally a verbosity level and whether or not to return the raw optimized function parameters. The dictionary must contain dt.
 
 Returns:
-A tuple of `time array from fit, data array from fit, lambda_guess, tau_d_guess, error from fit`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
+A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess, error from fit, [raw_parameters])`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
 
 ---
 
@@ -102,17 +102,44 @@ Generates and analyzes n realizations for each value of lambda in `(0.1, 0.2, 0.
 
 ### `generate_gamma_lambda_scan.py`
 
-Generates and analyzes one realization for each lambda-gamma combination in a range. The ranges are adjusted manually in the for-loops. It is run as a script.
+Generates and analyzes one realization for each lambda-gamma combination in a range. The ranges are adjusted manually in the for-loops. This is run as a script.
 
 ---
 
-### `histograms.py`
+### `plot_histograms.py`
 
-Plots histograms of lambda and tau_d estimates. This is run as a script.
+Plots histograms of lambda and tau_d estimates for one value of gamma. This is run as a script.
 
 ---
 
-### `2d_map.py`
+### `plot_2d_map.py`
 
 Plots a map of estimate errors for lambda and tau_d.
 
+---
+
+### `plot_mean_dev.py`
+
+Plots the mean estimated lambda and tau_d with standard deviation.
+
+---
+
+### `plot_series.py`
+
+Plots an example of the time series.
+
+---
+
+### `plot_fit.py`
+
+Plots the estimated pulse shape, the true pulse shape and the conditionally averaged pulse shape.
+---
+
+### `plot_cond_var.py`
+
+Plots the conditional variance, the true pulse shape and the conditionally averaged pulse shape.
+---
+
+### `plot_cond_av.py`
+
+Illustrates the conditional averaging process with a plot of the time series with each valid peak highlighted.

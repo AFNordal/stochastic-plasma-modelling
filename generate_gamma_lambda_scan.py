@@ -27,6 +27,7 @@ for gamma in np.round(np.logspace(-1, 1, 11), 2):
         }
         print(gamma, lmbda)
 
+        # generate and save series and analysis
         times, series = datagen.generate_data(parameters)
         ca_data = analysis.ca_analysis(times, series, parameters)
         storage.save_ca_data(ca_data, dir, parameters)

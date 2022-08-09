@@ -20,6 +20,10 @@ def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normaliz
                ............................................ float, def None
         window: If True, delta also gives the minimal distance between peaks.
                 ........................................... bool, def False
+        normalize_amplitude: If true, all conditional events are scaled to have
+                             an amplitude of 1. ........... bool, def False
+        illustrate: If true, plots an illustration of the conditional averaging
+                    process. .............................. bool, def False
 
     Outputs:
         Svals: Signal values used in the conditional average.
@@ -90,9 +94,6 @@ def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normaliz
 
         gpl_array = np.append(gpl_array, local_peak_loc + lT[i][0])
 
-    if illustrate:
-        plt.plot(T[gpl_array], sgnl[gpl_array], 'xr')
-
     # Ensure distance delta between peaks.
     if window:
         index = 0
@@ -107,6 +108,10 @@ def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normaliz
         gpl_array.sort()
 
     gpl_array = gpl_array.astype(int)
+
+    if illustrate:
+        plt.plot(T[gpl_array], sgnl[gpl_array], 'xr')
+
     peaks = S[gpl_array]
     wait = np.append(np.array([T[0]]), T[gpl_array])
     wait = np.diff(wait)

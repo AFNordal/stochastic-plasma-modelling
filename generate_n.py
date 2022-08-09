@@ -7,14 +7,14 @@ n = 100
 gamma = 1
 t = 100000
 dt = 0.01
-delta = 3
+delta = 6
 window = True
 normalize_amplitude = True
 thresh = 2.5
 
 
 for i in range(n):
-    dir = f"/hdd1/rno040/experiments/n{n}_gamma{gamma}_lambda0.1-0.5/{i}/"
+    dir = f"/hdd1/rno040/experiments/delta_6/{i}/"
     mkdir(dir)
     for lmbda in (0.1, 0.2, 0.3, 0.4, 0.5):
         parameters = {
@@ -30,6 +30,7 @@ for i in range(n):
 
         print(f"{i=} \t{lmbda=} \t{gamma=}")
 
+        # generate and save series and analysis
         times, series = datagen.generate_data(parameters)
         data = analysis.ca_analysis(
             times, series, parameters)

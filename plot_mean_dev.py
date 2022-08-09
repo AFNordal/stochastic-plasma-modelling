@@ -16,9 +16,9 @@ thresh = 2.5
 # fig, axs = plt.subplots(1, 5, sharey='all', label="lambda error")
 lmbdas = [[[] for i in range(5)] for j in range(3)]
 tau_ds = [[[] for i in range(5)] for j in range(3)]
-for k,  gamma in enumerate((0.1, 0.4, 1)):
-    for i in tqdm(range(10)):
-        dir = f"/hdd1/rno040/experiment_data/N/gamma{gamma}_lambda0.1->0.5/{i}/"
+for k,  gamma in enumerate((0.1, 1, 10)):
+    for i in tqdm(range(100)):
+        dir = f"/hdd1/rno040/experiments/n100_gamma{gamma}_lambda0.1-0.5/{i}/"
         for j, lmbda in enumerate((0.1, 0.2, 0.3, 0.4, 0.5)):
             parameters = {
                 "gamma": gamma,
@@ -45,15 +45,21 @@ lmbdas = np.array(lmbdas)
 tau_ds = np.array(tau_ds)
 fig, (lamfig, taufig) = plt.subplots(1, 2)
 
-mrk = ['s', 'v', 'o']
 col = ['r', 'g', 'b']
+
+lines = []
 for i in range(3):
-    lamfig.errorbar(np.arange(0.1, 0.6, 0.1),
-                    lmbdas[i].mean(1), lmbdas[i].std(1), color=col[i], marker="", capsize=8, lw=1)
+    artists = lamfig.errorbar(np.arange(0.1, 0.6, 0.1),
+                              lmbdas[i].mean(1), lmbdas[i].std(1), color=col[i], marker="", capsize=8, lw=1)
+    lines.append(artists[0])
     taufig.errorbar(np.arange(0.1, 0.6, 0.1),
-                    tau_ds[i].mean(1), tau_ds[i].std(1), linestyle="none", color=col[i], marker=mrk[i], markerfacecolor="w", markeredgecolor=col[i], capsize=10, lw=1)
-lamfig.set_title("guesses for lambda")
-taufig.set_title("guesses for tau_d")
+                    tau_ds[i].mean(1), tau_ds[i].std(1), color=col[i], marker="", capsize=8, lw=1)
+
+lamfig.legend(lines, ("0.1", "1", "10"))
+fig.suptitle("Mean pulse parameter estimates")
+lamfig.set_title("lambda")
+taufig.set_title("tau_d")
+
 # lamfig.set_ylim(bottom=0)
 # taufig.set_ylim(bottom=0)
 

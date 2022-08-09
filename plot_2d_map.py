@@ -12,7 +12,7 @@ window = True
 normalize_amplitude = True
 thresh = 2.5
 
-dir = "experiment_data/10x10/"
+dir = "/hdd1/rno040/experiments/10x10/"
 
 lmbdas = []
 tau_ds = []

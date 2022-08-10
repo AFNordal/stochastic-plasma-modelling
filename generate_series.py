@@ -15,6 +15,6 @@ def generate_data(P):
     ts_generator.set_custom_forcing_generator(forcing_generator)
 
     times, series = ts_generator.make_realization()
-    # rescale series
-    series = (series-np.mean(series))/np.sqrt(np.mean(series**2))
+    # rescale series - WRONG
+    # series = (series-np.mean(series))/np.sqrt(np.mean(series**2))
     return times, series

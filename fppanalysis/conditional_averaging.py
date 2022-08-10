@@ -1,4 +1,5 @@
-def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normalize_amplitude=False, illustrate=False):
+def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False,
+            normalize_amplitude=False, illustrate=False):
     """
     Use: cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False)
     Use the level crossing algorithm to compute the conditional average of
@@ -48,8 +49,9 @@ def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normaliz
     places = np.where(sgnl > smin)[0]
 
     if illustrate:
-        plt.plot(T, sgnl, '--')
+        plt.plot(T, sgnl, '-k', lw=1)
         plt.plot([0, max(T)], [smin, smin], 'r')
+        colors = ['orange', '#069af3', 'magenta', 'green']
 
     assert len(places) > 0, "No conditional events"
     print("places to check:{}".format(len(places)), flush=True)
@@ -131,8 +133,19 @@ def cond_av(S, T, smin, smax=None, Sref=None, delta=None, window=False, normaliz
         low_ind = int(max(0, global_peak_loc - t_half_len))
         high_ind = int(min(len(sgnl), global_peak_loc + t_half_len + 1))
         tmp_sn = S[low_ind:high_ind]
+
         if illustrate:
-            plt.plot(T[low_ind:high_ind], sgnl[low_ind:high_ind], '--')
+            c = colors[i % len(colors)]
+            plt.plot(T[low_ind:high_ind],
+                     sgnl[low_ind:high_ind], '-', color=c)
+            if window:
+                head_ind = int(max(0, global_peak_loc-delta/dt))
+                tail_ind = int(min(len(sgnl), global_peak_loc+delta/dt))
+                plt.plot(T[head_ind:low_ind],
+                         sgnl[head_ind:low_ind], '--', color=c)
+                plt.plot(T[high_ind:tail_ind],
+                         sgnl[high_ind:tail_ind], '--', color=c)
+
         Svals[low_ind:high_ind] = S[low_ind:high_ind]
         if low_ind == 0:
             tmp_sn = np.append(np.zeros(-global_peak_loc + t_half_len), tmp_sn)

@@ -1,22 +1,23 @@
+from math import inf
 import double_exp_ca_analysis as analysis
 import generate_series as datagen
 import storage
 from os import mkdir
 
-n = 100
-gamma = 1
+n = inf
+gamma = 10
 t = 100000
 dt = 0.01
-delta = 6
+delta = 3
 window = True
 normalize_amplitude = True
 thresh = 2.5
 
 
 for i in range(n):
-    dir = f"/hdd1/rno040/experiments/delta_6/{i}/"
+    dir = f"/hdd1/rno040/experiments/n100_gamma{gamma}_lambda0-0.5/{i}/"
     mkdir(dir)
-    for lmbda in (0.1, 0.2, 0.3, 0.4, 0.5):
+    for lmbda in (0,):
         parameters = {
             "gamma": gamma,
             "lmbda": lmbda,

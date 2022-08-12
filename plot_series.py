@@ -3,9 +3,9 @@ import storage
 import numpy as np
 import matplotlib.pyplot as plt
 
-display_t = [48, 93]
-gamma = 1
-lmbda = 0.2
+display_t = [0, 10000]
+gamma = 0.1
+lmbda = 0
 t = 100000
 dt = 0.01
 delta = 3

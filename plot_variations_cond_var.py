@@ -1,4 +1,5 @@
 from distutils.util import subst_vars
+from math import inf
 import double_exp_ca_analysis as analysis
 from double_exponential_fit import double_exponential
 import storage
@@ -6,7 +7,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-gamma = 1
+gamma = inf
 lmbda = 0.2
 t = 100000
 dt = 0.01
@@ -72,10 +73,10 @@ paramlist = (
 )
 
 dirs = (
-    "/hdd1/rno040/experiments/n100_gamma1_lambda0.1-0.5/0/",
-    "/hdd1/rno040/experiments/win_0/0/",
-    "/hdd1/rno040/experiments/normamp_0/0/",
-    "/hdd1/rno040/experiments/delta_6/0/"
+    f"/hdd1/rno040/experiments/base/gamma{gamma}/0/",
+    f"/hdd1/rno040/experiments/win_0/gamma{gamma}/0/",
+    f"/hdd1/rno040/experiments/normamp_0/gamma{gamma}/0/",
+    f"/hdd1/rno040/experiments/delta_6/gamma{gamma}/0/"
 )
 
 
@@ -85,17 +86,19 @@ for parameters, dir, color in zip(paramlist, dirs, colors):
 
     ca_data = storage.load_ca_data(dir, parameters)
     svals, s_av, s_var, t_av, peaks, wait = ca_data
-    fit_data = analysis.iterate_least_sq(
-        t_av, s_av, parameters)
 
     line, = plt.plot(t_av[int(len(t_av)/2-delta/(2*dt)):int(len(t_av)/2+delta/(2*dt))],
-                     s_av[int(len(t_av)/2-delta/(2*dt)):int(len(t_av)/2+delta/(2*dt))]/max(s_av),
+                     s_av[int(len(t_av)/2-delta/(2*dt))
+                              :int(len(t_av)/2+delta/(2*dt))]/max(s_av),
                      color=color, linestyle="-", lw=1)
     plt.plot(t_av[int(len(t_av)/2-delta/(2*dt)):int(len(t_av)/2+delta/(2*dt))],
-             s_var[int(len(t_av)/2-delta/(2*dt)):int(len(t_av)/2+delta/(2*dt))],
+             s_var[int(len(t_av)/2-delta/(2*dt))
+                       :int(len(t_av)/2+delta/(2*dt))],
              color=color, linestyle=":", lw=1)
 
     lines.append(line)
 
 plt.legend(lines, ("true", "base", "win false", "normamp false", "delta 6"))
+plt.suptitle(
+    f"Conditionally averaged waveforms with variance\n{gamma=} lambda={lmbda}")
 plt.show()

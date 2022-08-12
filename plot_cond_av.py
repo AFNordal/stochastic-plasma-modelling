@@ -1,7 +1,7 @@
 import double_exp_ca_analysis as analysis
 import storage
 
-display_t = [48, 93]
+display_t = [490, 520]
 gamma = 1
 lmbda = 0.2
 t = 100000
@@ -9,7 +9,7 @@ dt = 0.01
 delta = 3
 window = True
 normalize_amplitude = True
-thresh = 2
+thresh = 1.5
 
 parameters = {
     "gamma": gamma,
@@ -22,7 +22,7 @@ parameters = {
     "thresh": thresh
 }
 
-dir = f"/hdd1/rno040/experiments/n100_gamma{gamma}_lambda0.1-0.5/2/"
+dir = f"/hdd1/rno040/experiments/base/gamma{gamma}/2/"
 
 times, series = storage.load_series(dir, parameters)
 t0, t1 = tuple(map(lambda x: int(x/dt), display_t))

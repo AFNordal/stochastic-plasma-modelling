@@ -56,30 +56,27 @@ paramlist = (
 )
 
 dirs = (
-    "/hdd1/rno040/experiments/n100_gamma1_lambda0.1-0.5/",
-    "/hdd1/rno040/experiments/win_0/",
-    "/hdd1/rno040/experiments/normamp_0/",
-    "/hdd1/rno040/experiments/delta_6/"
+    f"/hdd1/rno040/experiments/base/gamma{gamma}/",
+    f"/hdd1/rno040/experiments/win_0/gamma{gamma}/",
+    f"/hdd1/rno040/experiments/normamp_0/gamma{gamma}/",
+    f"/hdd1/rno040/experiments/delta_6/gamma{gamma}/"
 )
 
-# fig, axs = plt.subplots(1, 5, sharey='all', label="lambda error")
-lmbdas = [[[] for i in range(5)] for j in paramlist]
-tau_ds = [[[] for i in range(5)] for j in paramlist]
+lmbdas = [[[] for i in range(6)] for j in paramlist]
+tau_ds = [[[] for i in range(6)] for j in paramlist]
 for k, (parameters, dir_) in enumerate(zip(paramlist, dirs)):
-    for i in tqdm(range(100)):
+    for i in tqdm(range(10)):
         dir = f"{dir_}{i}/"
-        for j, lmbda in enumerate((0.1, 0.2, 0.3, 0.4, 0.5)):
+        for j, lmbda in enumerate((0, 0.1, 0.2, 0.3, 0.4, 0.5)):
             parameters["lmbda"] = lmbda
 
             data = storage.load_ca_data(dir, parameters)
             svals, s_av, s_var, t_av, peaks, wait = data
-            shape = analysis.iterate_least_sq(
-                t_av, s_av, parameters, verbose=0)
-            fit_times, fit, lmbda_guess, tau_d_guess, err = shape
-            # print(lmbda_guess, tau_d_guess)
+            shape = analysis.simple_dexp(t_av, s_av)
+            fit_times, fit, lmbda, tau_d, tau_r, tau_f, err = shape
 
-            lmbdas[k][j].append(lmbda_guess/lmbda)
-            tau_ds[k][j].append(tau_d_guess)
+            lmbdas[k][j].append(lmbda)
+            tau_ds[k][j].append(tau_d)
 
 lmbdas = np.array(lmbdas)
 tau_ds = np.array(tau_ds)
@@ -88,15 +85,17 @@ fig, (lamfig, taufig) = plt.subplots(1, 2)
 col = ['r', 'g', 'b', 'm']
 
 lines = []
+lamfig.axline((0.5, 0.5), slope=1, linestyle="--", color="k", lw=1)
+taufig.axhline(1, linestyle="--", color="k", lw=1)
 for i in range(4):
-    artists = lamfig.errorbar(np.arange(0.1, 0.6, 0.1),
+    artists = lamfig.errorbar(np.arange(0, 0.6, 0.1),
                               lmbdas[i].mean(1), lmbdas[i].std(1), color=col[i], marker="", capsize=8, lw=1)
     lines.append(artists[0])
-    taufig.errorbar(np.arange(0.1, 0.6, 0.1),
+    taufig.errorbar(np.arange(0, 0.6, 0.1),
                     tau_ds[i].mean(1), tau_ds[i].std(1), color=col[i], marker="", capsize=8, lw=1)
 
 lamfig.legend(lines, ("base", "win false", "normamp false", "delta 6"))
-fig.suptitle("Mean pulse parameter estimates")
+fig.suptitle(f"Mean pulse parameter estimates, {gamma=}")
 lamfig.set_title("lambda")
 taufig.set_title("tau_d")
 

@@ -31,11 +31,10 @@ for i in tqdm(range(100)):
 
         data = storage.load_ca_data(dir, parameters)
         svals, s_av, s_var, t_av, peaks, wait = data
-        shape = analysis.iterate_least_sq(t_av, s_av, parameters, verbose=0)
-        fit_times, fit, lmbda_guess, tau_d_guess, err = shape
-        # print(lmbda_guess, tau_d_guess)
+        shape = analysis.simple_dexp(t_av, s_av)
+        fit_times, fit, lmbda_guess, tau_d_guess, tau_r, tau_f, err = shape
 
-        lmbdas[j].append(lmbda_guess/lmbda)
+        lmbdas[j].append(lmbda_guess-lmbda)
         tau_ds[j].append(tau_d_guess)
 
 fig = plt.figure(constrained_layout=True)

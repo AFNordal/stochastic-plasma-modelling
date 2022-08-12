@@ -133,11 +133,13 @@ Plots an example of the time series.
 ### `plot_fit.py`
 
 Plots the estimated pulse shape, the true pulse shape and the conditionally averaged pulse shape.
+
 ---
 
 ### `plot_cond_var.py`
 
 Plots the conditional variance, the true pulse shape and the conditionally averaged pulse shape.
+
 ---
 
 ### `plot_cond_av.py`

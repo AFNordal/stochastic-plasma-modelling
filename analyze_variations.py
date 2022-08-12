@@ -1,6 +1,6 @@
 from copy import copy
 from math import inf
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 import storage
 from os import mkdir
 

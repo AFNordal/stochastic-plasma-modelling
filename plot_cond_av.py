@@ -1,4 +1,4 @@
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 import storage
 
 display_t = [490, 520]

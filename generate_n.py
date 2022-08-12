@@ -1,5 +1,5 @@
 from math import inf
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 import generate_series as datagen
 import storage
 from os import mkdir

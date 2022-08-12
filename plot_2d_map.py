@@ -1,4 +1,4 @@
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 import storage
 import numpy as np
 from matplotlib import pyplot as plt

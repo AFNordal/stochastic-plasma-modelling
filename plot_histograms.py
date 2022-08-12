@@ -1,4 +1,4 @@
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 import storage
 from matplotlib import pyplot as plt
 from tqdm import tqdm

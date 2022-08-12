@@ -25,7 +25,7 @@ Analysis data is handled in a tuple of `(svals, s_av, s_var, t_av, peaks, wait)`
 
 All of the data is stored on `/hdd1/rno040/experiments`. Each experiment keeps its data in one directory. 
 
-For the experiments that make n realizations for each value of lambda, the experiment directory has n subdirectories, each with data from one realization for each value of lambda. Sounds complicated? Just take a look and it'll make sense:) 
+For the experiments that make n realizations for each value of lambda, the experiment directory has n subdirectories, each with data from one realization for each value of lambda.
 
 ---
 
@@ -47,6 +47,16 @@ A dictionary containing gamma, lambda, t and dt
 Returns:  
 A tuple of (time array, data array)
 
+#### `by_convolution`  
+
+Creates a realization of the time series by convolution. Suitable for high gammas.
+
+Inputs:  
+A dictionary containing lambda, t and dt
+
+Returns:  
+A tuple of (time array, data array)
+
 ---
 
 ### `storage.py`
@@ -55,7 +65,7 @@ A script to manage writing and reading data to and from files. This is documente
 
 ---
 
-### `double_exp_ca_analysis.py`
+### `fit_analysis.py`
 
 A script that wraps `conditional_averaging.py` and `double_exponential_fit.py`. Contains:
 
@@ -82,7 +92,7 @@ A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess
 ---
 
 ### `double_exponential_fit.py`
-Executes least squares fit of double exponential. Is most easily used with its wrapper, [`double_exp_ca_analysis.py`](#double_exp_ca_analysis.py). Contains:
+Executes least squares fit of double exponential. Is most easily used with its wrapper, [`fit_analysis.py`](#fit_analysis.py). Contains:
 
 #### `d_exp_fit`
 

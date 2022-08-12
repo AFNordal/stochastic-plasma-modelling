@@ -1,6 +1,6 @@
 from distutils.util import subst_vars
 from math import inf
-import double_exp_ca_analysis as analysis
+import fit_analysis as analysis
 from double_exponential_fit import double_exponential
 import storage
 import numpy as np

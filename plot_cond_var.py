@@ -10,7 +10,7 @@ t = 100000
 dt = 0.01
 delta = 3
 window = True
-normalize_amplitude = False
+normalize_amplitude = True
 thresh = 2.5
 
 
@@ -41,7 +41,7 @@ for i, (lmbda, subfig) in enumerate(zip(lmbdas, subfigs)):
             "thresh": thresh
         }
 
-        dir = f"/hdd1/rno040/experiments/normamp_0/gamma{gamma}/0/"
+        dir = f"/hdd1/rno040/experiments/base/gamma{gamma}/0/"
 
         ca_data = storage.load_ca_data(dir, parameters)
         svals, s_av, s_var, t_av, peaks, wait = ca_data

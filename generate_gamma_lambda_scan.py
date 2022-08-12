@@ -14,7 +14,7 @@ thresh = 2.5
 dir = "experiment/10x10/"
 
 for gamma in np.round(np.logspace(-1, 1, 11), 2):
-    for lmbda in np.round(np.linspace(0.1, 0.5, 9), 2):
+    for lmbda in np.round(np.linspace(0, 0.5, 11), 2):
         parameters = {
             "gamma": gamma,
             "lmbda": lmbda,

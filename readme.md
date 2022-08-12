@@ -79,34 +79,83 @@ Time and data arrays from series, dictionary of parameters and optionally a verb
 Returns:
 A tuple of analysis data, `(svals, s_av, s_var, t_av, peaks, wait)`.
 
-#### `iterate_least_sq`
+#### `iterated_dexp`
 
-Fits a double exponential function numerical data. Begins by doing the fit over all of the data. A new analysis domain is then calculated as `[peak_time-rise_time, peak_time+fall_time]` where rise and fall time are estimated from the previous fit. This is iterated until it converges on values for rise and fall time.
+Fits a double exponential function to numerical data. Begins by doing the fit over all of the data. A new analysis domain is then calculated as `[peak_time-rise_time, peak_time+fall_time]` where rise and fall time are estimated from the previous fit. This is iterated until it converges on values for rise and fall time.
 
 Inputs:  
-Time and data arrays from series, dictionary of parameters and optionally a verbosity level and whether or not to return the raw optimized function parameters. The dictionary must contain dt.
+Time and data arrays from series, dictionary of parameters and optionally a verbosity level. The dictionary must contain dt.
 
 Returns:
-A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess, error from fit, [raw_parameters])`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
+A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess, tau_r_guess, tau_f_guess, error from fit)`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
+
+#### `simple_dexp`
+
+Fits a double exponential function to numerical data. Performs fit on all input data.
+
+Inputs:  
+Time and data arrays from series.
+
+Returns:
+A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess, tau_r_guess, tau_f_guess, error from fit)`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
+
+#### `simple_risefall`
+
+Individually fits an exponential function to both sides of a peak waveform. Performs fit on all input data.
+
+Inputs:  
+Time and data arrays from series.
+
+Returns:
+A tuple of `(time array from fit, data array from fit, lambda_guess, tau_d_guess, tau_r_guess, tau_f_guess, error from fit)`. The error is the mean of the square rooted diagonals of the covariance of the fitted parameters.
+#### `calculate_params`
+
+Calculates waveform parameters from raw function parameters
+
+Inputs:  
+list of raw function parameters
+
+Returns:
+A tuple of `(lambda_guess, tau_d_guess, tau_r_guess, tau_f_guess)`
 
 ---
-
 ### `double_exponential_fit.py`
-Executes least squares fit of double exponential. Is most easily used with its wrapper, [`fit_analysis.py`](#fit_analysis.py). Contains:
+
+Executes least squares fit of double exponential. Is most easily used with its wrapper, `fit_analysis.py`. Contains:
 
 #### `d_exp_fit`
 
+Fits a double exponential function to numerical data.
+
 Inputs:  
-Time and data arrays from series, a domain and `shared_params`. The domain can be an int, in which case the fit is done over `[peak_time-domain, peak_time+domain]`, or a list of two elements, in which case the fit is done over `[peak_time-domain[0], peak_time+domain[1]]`. `shared_params` is a boolean that decides whether or not to use the same scaling factor and constant term for the falling and rising curve.
+Time and data arrays from series and a domain. The domain can be an int, in which case the fit is done over `[peak_time-domain, peak_time+domain]`, or a list of two elements, in which case the fit is done over `[peak_time-domain[0], peak_time+domain[1]]`. `shared_params` is a boolean that decides whether or not to use the same scaling factor and constant term for the falling and rising curve.
 
 Returns:  
 Time and data arrays of numerical realization of fitted curve, optimal parameters and error.
+
+#### `rise_fall_fit`
+
+Individually fits an exponential function to both sides of a peak waveform.
+
+Inputs:
+Time and data arrays to perform fit on.
+
+Outputs:
+Time and data arrays of fitted curve, fitted parameters and error.
+
+#### `double_exponential`
+
+A template for a double exponential function
+
+#### `rise_fall_exponential`
+
+A template "containing" two independent exponentials.
 
 ---
 
 ### `generate_n.py`
 
-Generates and analyzes n realizations for each value of lambda in `(0.1, 0.2, 0.3, 0.4, 0.5)`. This is just run as a script. Gamma and data directory is modified manually in the variable declaration.
+Generates and analyzes n realizations for each value of lambda in `(0, 0.1, 0.2, 0.3, 0.4, 0.5)`. This is just run as a script. Gamma and data directory is modified manually in the variable declaration.
 
 ---
 
@@ -118,19 +167,31 @@ Generates and analyzes one realization for each lambda-gamma combination in a ra
 
 ### `plot_histograms.py`
 
-Plots histograms of lambda and tau_d estimates for one value of gamma. This is run as a script.
+Plots the shape of the histograms of lambda and tau_d estimates for one value of gamma. The mean is subtracted from the estimate sets before they are rescaled by their standard deviation.
 
 ---
 
 ### `plot_2d_map.py`
 
-Plots a map of estimate errors for lambda and tau_d.
+Plots a map of estimate errors for lambda and tau_d. errors are represented as difference between estimated and true value.
 
 ---
 
-### `plot_mean_dev.py`
+### `plot_base_box.py`
 
-Plots the mean estimated lambda and tau_d with standard deviation.
+Plots the mean estimated lambda and tau_d with standard deviation with base parameters for conditional averaging.
+
+---
+
+### `plot_methods_box.py`
+
+Plots the mean estimated lambda and tau_d with standard deviation with base parameters for conditional averaging. Does this for the three different fit methods.
+
+---
+
+### `plot_variations_box.py`
+
+Plots the mean estimated lambda and tau_d with standard deviation with all variations of parameters for conditional averaging.
 
 ---
 
@@ -140,15 +201,33 @@ Plots an example of the time series.
 
 ---
 
-### `plot_fit.py`
+### `analyze_variations.py`
 
-Plots the estimated pulse shape, the true pulse shape and the conditionally averaged pulse shape.
+Performs conditional averaging on series data from file.
+
+---
+
+### `plot_dexp_fit.py`
+
+Plots the estimated pulse shape, the true pulse shape and the conditionally averaged pulse shape. For double exponential fit.
+
+---
+
+### `plot_risefall_fit.py`
+
+Plots the estimated pulse shape, the true pulse shape and the conditionally averaged pulse shape. For individual fits to rise and fall curve.
 
 ---
 
 ### `plot_cond_var.py`
 
-Plots the conditional variance, the true pulse shape and the conditionally averaged pulse shape.
+Plots the conditional variance, the true pulse shape and the conditionally averaged pulse shape for one value of lambda and a range of gammas.
+
+---
+
+### `plot_variations_cond_var.py`
+
+Plots the conditional variance, the true pulse shape and the conditionally averaged pulse shape for one value of lambda, one value of gamma and a range of conditional averaging parameters.
 
 ---
 

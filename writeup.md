@@ -31,20 +31,20 @@ The base conditions used in the analysis were:
 
 Below is an illustration of the process. Note that the threshold in the figure for illustrational purposes is set to $1.5\Phi_{rms}$. Each valid peak is marked with a red cross. The colored solid colored curves show the size of each event. The dotted lines show the domain within which other peaks are not counted as conditional events.
 
-<img src="./figures/series plots/ca_series_gamma1_delta3.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/series%20plots/ca_series_gamma1_delta3.svg">
 
 The resulting waveforms, with $1-conditional\_ variance$ represented by the dotted lines, are shown here for two values of $\lambda$ with each color representing a different $\gamma$:
 
-<img src="./figures/ca_waveform of variants/ca_curves_base.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/ca_waveform%20of%20variants/ca_curves_base.svg">
 
 Subsequently, three variations of the base conditions were analyzed. One allowing overlap, one in which the events were not normalized and one with $\Delta=6$.
 
 Following are comparisons of the base case and the three variations for different values of $\gamma$ and $\lambda=0.2$:
 
-<img src="./figures/ca_waveform of variants/compare_curves_gamma0.1.svg" width=49%> 
-<img src="./figures/ca_waveform of variants/compare_curves_gamma1.svg" width=49%>
-<img src="./figures/ca_waveform of variants/compare_curves_gamma10.svg" width=49%> 
-<img src="./figures/ca_waveform of variants/compare_curves_gammainf.svg" width=49%>
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/ca_waveform%20of%20variants/compare_curves_gamma0.1.svg" width=49%> 
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/ca_waveform%20of%20variants/compare_curves_gamma1.svg" width=49%>
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/ca_waveform%20of%20variants/compare_curves_gamma10.svg" width=49%> 
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/ca_waveform%20of%20variants/compare_curves_gammainf.svg" width=49%>
 
 
 One qualitative conclusion to be drawn from these plots is that the base conditions seem to give overall lower conditional variance. Another observation is that for $\gamma\in\{1, 10\}$ allowing overlap seems to improve the estimate of the falling curve at the cost of the estimate of the rising curve.
@@ -55,7 +55,7 @@ A least squares fit was performed to extract shape parameters from the condition
 
 All three methods were tested on the base conditional waveform for each 100 realizations for each $\{\gamma, \lambda\}$ pair. The mean estimates of $\lambda$ and $\tau_d$ with related standard variations are shown in the below plot, along with the true value in black:
 
-<img src="./figures/box plots/methods_box.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/box%20plots/methods_box.svg">
 
 The first takeaway is that all methods give results within the same order of magnitude, and they all suggest the same trend (except for $\lambda=0$); The slope the estiamte curve of $\lambda$ decreases with higher $\gamma$, and the slope of the $\tau_d$ estimate increases, both giving less accurate estimates for higher $\gamma$.
 
@@ -65,11 +65,15 @@ The method with shared parameters and iteratively estimated domain ("connected i
 
 The method with independent parameters and constant domain ("disconnected") underperforms in estimating both parameters for $\lambda=0$. This is due to the rising flank being too short, only consisting of 2-3 data points. Therefore the floor curve leading up to the flank, consisting of a lot more data points, is estimated instead of the actual flank. This is illustrated below, where the green dashed line is the true waveform, the blue line is the conditionally averaged waveform, and the red and yellow dashed lines represent the least squares fit:
 
-<img src="./figures/fit plots/risefall_fit_gamma1_lambda0.svg">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/fit%20plots/risefall_fit_gamma1_lambda0.svg" style="margin: auto">
+</p>
 
 Conversely, with shared parameters, the fit is more representative of the waveform:
 
-<img src="./figures/fit plots/dexp_fit_gamma1_lambda0.svg">
+<p align="center">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/fit%20plots/dexp_fit_gamma1_lambda0.svg">
+</p>
 
 As a result of these conclusions, only the method with shared parameters and a constant domain is used in further analysis.
 
@@ -77,16 +81,26 @@ As a result of these conclusions, only the method with shared parameters and a c
 
 The results from estimating $\lambda$ and $\tau_d$ for the base conditional averaging parameters are seen below:
 
-<img src="./figures/box plots/base_box.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/box%20plots/base_box.svg">
 
 The following plot gives higher resolution, but each datapoint represents the estimate from one series only - not a mean like the plot above.
 
-<img src="./figures/map plots/map.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/map%20plots/map.svg">
 
 From both plots, some main conclusions can be drawn: The estimates are consistently correct within an order of magnitude, and for lower $\gamma$ they provide a qualitatively good estimate.
 
+The shapes of the sets of estimates are shown below:
+
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/histograms/histograms_gamma0.1.svg">
+
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/histograms/histograms_gamma1.svg">
+
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/histograms/histograms_gamma10.svg">
+
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/histograms/histograms_gammainf.svg">
+
 Further investigations of the conditional averaging parameters show that the "base" parameters provide overall best performance. Allowing overlap does show promise for $\gamma=1$, but is too unstable for higher values, and badly misses for $\gamma=0$. Increasing $\Delta$ seems to improve estimates of $\tau_d$ for higher $\gamma$, but it also leads to a significant error for $\gamma=0$. This is all visible in the fairly chaotic plot below:
 
-<img src="./figures/box plots/variations_box.svg">
+<img src="https://raw.githubusercontent.com/AFNordal/stochastic-plasma-modelling/main/figures/box%20plots/variations_box.svg">
 
 Notice how the estimate for $\tau_d$ when allowing overlap shoots up for $\lambda=0,\;\gamma=10$; it ends up around $\tau_d=10^7$.

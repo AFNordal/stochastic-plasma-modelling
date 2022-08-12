@@ -17,7 +17,7 @@ thresh = 2.5
 for i in range(n):
     dir = f"/hdd1/rno040/experiments/n100_gamma{gamma}_lambda0-0.5/{i}/"
     mkdir(dir)
-    for lmbda in (0,):
+    for lmbda in (0, 0.1, 0.2, 0.3, 0.4, 0.5):
         parameters = {
             "gamma": gamma,
             "lmbda": lmbda,

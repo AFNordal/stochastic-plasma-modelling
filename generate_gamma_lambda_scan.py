@@ -11,7 +11,7 @@ window = True
 normalize_amplitude = True
 thresh = 2.5
 
-dir = "experiment/10x10/"
+dir = "/hdd1/rno040/new_experiments/10x10/"
 
 for gamma in np.round(np.logspace(-1, 1, 11), 2):
     for lmbda in np.round(np.linspace(0, 0.5, 11), 2):
@@ -29,6 +29,6 @@ for gamma in np.round(np.logspace(-1, 1, 11), 2):
 
         # generate and save series and analysis
         times, series = datagen.generate_data(parameters)
+        storage.save_series(times, series, dir, parameters)
         ca_data = analysis.ca_analysis(times, series, parameters)
         storage.save_ca_data(ca_data, dir, parameters)
-        storage.save_series(times, series, dir, parameters)
